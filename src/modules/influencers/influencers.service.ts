@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInfluencerDto } from './dto/create-influencer.dto';
 import { UpdateInfluencerDto } from './dto/update-influencer.dto';
+import { InfluencerRepository } from './repositories/influencer.repository';
+import { InfluencerNotFound } from 'src/shared/exceptions/bad-request.exception';
 
 @Injectable()
 export class InfluencersService {
-  create(createInfluencerDto: CreateInfluencerDto) {
-    return 'This action adds a new influencer';
+  constructor(private readonly influencerRepository: InfluencerRepository) {}
+
+  async create(createInfluencerDto: CreateInfluencerDto) {
+    const influencer = await this.influencerRepository.create(
+      createInfluencerDto,
+    );
+    return influencer;
   }
 
-  findAll() {
-    return `This action returns all influencers`;
+  async findAll() {
+    const influencers = await this.influencerRepository.findAll();
+    return influencers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} influencer`;
+  async findOne(id: string) {
+    const influencer = await this.influencerRepository.findOne(id);
+    if (!influencer) {
+      throw new InfluencerNotFound();
+    }
+
+    return influencer;
   }
 
-  update(id: number, updateInfluencerDto: UpdateInfluencerDto) {
-    return `This action updates a #${id} influencer`;
-  }
+  async update(id: string, updateInfluencerDto: UpdateInfluencerDto) {
+    const exists = await this.influencerRepository.findOne(id);
+    if (!exists) {
+      throw new InfluencerNotFound();
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} influencer`;
+    const influencer = await this.influencerRepository.update(
+      id,
+      updateInfluencerDto,
+    );
+    if (!influencer) {
+      throw new InfluencerNotFound();
+    }
+
+    return influencer;
   }
 }

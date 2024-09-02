@@ -19,7 +19,7 @@ export class InfluencersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.influencersService.findOne(+id);
+    return this.influencersService.findOne(id);
   }
 
   @Put(':id')
@@ -27,6 +27,6 @@ export class InfluencersController {
     @Param('id') id: string,
     @Body() updateInfluencerDto: UpdateInfluencerDto,
   ) {
-    return this.influencersService.update(+id, updateInfluencerDto);
+    return this.influencersService.update(id, updateInfluencerDto);
   }
 }
