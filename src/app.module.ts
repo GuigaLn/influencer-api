@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { InfluencersModule } from './modules/influencers/influencers.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
+  imports: [InfluencersModule],
+  controllers: [],
   providers: [
-    AppService,
     JwtService,
     {
       provide: APP_GUARD,
