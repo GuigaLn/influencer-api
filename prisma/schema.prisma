@@ -12,3 +12,25 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Influencer {
+  id     String   @id @default(uuid()) @db.Uuid
+  name   String
+  niche  String[]
+  avatar String?
+
+  followerNumber  Int @map("follower_number")
+  followingNumber Int @map("following_number")
+
+  instagram String
+
+  cep        String
+  uf         String
+  state      String
+  city       String
+  place      String
+  district   String
+  complement String?
+
+  @@map("influencers")
+}
