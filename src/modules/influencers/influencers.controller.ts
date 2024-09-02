@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
 import { InfluencersService } from './influencers.service';
 import { CreateInfluencerDto } from './dto/create-influencer.dto';
 import { UpdateInfluencerDto } from './dto/update-influencer.dto';
@@ -22,13 +22,11 @@ export class InfluencersController {
     return this.influencersService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInfluencerDto: UpdateInfluencerDto) {
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateInfluencerDto: UpdateInfluencerDto,
+  ) {
     return this.influencersService.update(+id, updateInfluencerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.influencersService.remove(+id);
   }
 }
